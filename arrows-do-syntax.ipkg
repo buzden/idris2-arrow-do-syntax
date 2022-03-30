@@ -1,0 +1,7 @@
+package arrows-do-syntax
+
+authors = "Denis Buzdalov"
+
+depends = contrib
+
+sourcedir = "src"
