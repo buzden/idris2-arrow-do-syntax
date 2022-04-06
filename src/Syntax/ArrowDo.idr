@@ -31,6 +31,7 @@ fence : ArrowDo arr Unit
 arrDoImpl : Arrow arr => TTImp -> Elab $ arr a b
 arrDoImpl expr = do
   logSugaredTerm "arrowdo" 0 "f" expr
+  _ <- check {expected = a -> Syntax.ArrowDo.ArrowDo arr b} expr
   fail "Arrow-do syntax is not implemented yet"
 
 %macro
