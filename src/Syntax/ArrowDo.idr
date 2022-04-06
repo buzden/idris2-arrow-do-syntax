@@ -28,26 +28,14 @@ fence : ArrowDo arr Unit
 
 %language ElabReflection
 
-%macro
-arrDoDirect : Arrow arr => (a -> ArrowDo arr b) -> Elab $ arr a b
-arrDoDirect f = do
-  logSugaredTerm "arrowdo" 0 "f" !(quote f)
+arrDoImpl : Arrow arr => TTImp -> Elab $ arr a b
+arrDoImpl expr = do
+  logSugaredTerm "arrowdo" 0 "f" expr
   fail "Arrow-do syntax is not implemented yet"
-
-failing "not implemented yet"
-
-  x : Arrow arr => arr Nat String -> arr String Bool -> arr Nat Bool
-  x ns sb = arrDoDirect $ \n => do
-    s <- ns -< n + 1
-    b <- sb -< s
-    fence
-    pure b
 
 %macro
 arrDoQuoted : Arrow arr => TTImp -> Elab $ arr a b
-arrDoQuoted expr = do
-  logSugaredTerm "arrowdo" 0 "f" expr
-  fail "Arrow-do syntax is not implemented yet"
+arrDoQuoted = arrDoImpl
 
 failing "not implemented yet"
 
@@ -58,3 +46,16 @@ failing "not implemented yet"
     fence
     pure b
   )
+
+%macro
+arrDoDirect : Arrow arr => (a -> ArrowDo arr b) -> Elab $ arr a b
+arrDoDirect f = arrDoImpl !(quote f)
+
+failing "not implemented yet"
+
+  x : Arrow arr => arr Nat String -> arr String Bool -> arr Nat Bool
+  x ns sb = arrDoDirect $ \n => do
+    s <- ns -< n + 1
+    b <- sb -< s
+    fence
+    pure b
