@@ -12,7 +12,9 @@ data ArrowDo : (Type -> Type -> Type) -> Type -> Type
 
 (>>) : ArrowDo arr Unit -> ArrowDo arr b -> ArrowDo arr b
 
-pure : Arrow arr => a -> ArrowDo arr a
+prefix 0 <-=
+
+(<-=) : Arrow arr => a -> ArrowDo arr a
 
 infix 0 -<
 
@@ -45,7 +47,7 @@ failing "not implemented yet"
     s <- ns -< n + 1
     b <- sb -< s
     fence
-    pure b
+    <-= b
   )
 
 %macro
@@ -59,4 +61,4 @@ failing "not implemented yet"
     s <- ns -< n + 1
     b <- sb -< s
     fence
-    pure b
+    <-= b
